@@ -8,7 +8,7 @@ const galleryMorkup = createGalleryMorkup(galleryItems);
 
 galleryContainer.insertAdjacentHTML("beforeend", galleryMorkup)
 
-galleryContainer.addEventListener("click", onGalleryContainerClick);
+galleryContainer.addEventListener("click", onGalleryImageClick);
 
 
 function createGalleryMorkup(galleryItems) {
@@ -52,45 +52,37 @@ function addSrcAttrToLazyImages() {
   });
 }
 
-function onGalleryContainerClick(event) {
+function onGalleryImageClick(event) {
     
+ event.preventDefault();
+
 if (event.target.nodeName !== "IMG") {
     return;
-} 
-    event.preventDefault();
+}  
     console.log(event.target.alt);
-    modalWindowOpen(event.target.src);
-    
+    instance.element().querySelector(".modal-img").src = event.target.src;
+    instance.show();
 }
 
-function modalWindowOpen(imgSrc) {
-    
-    console.log("Onen modal");
-
-    const instance = basicLightbox.create(`
-	<img src="${imgSrc}" width="800" height="600">   
-`
+const instance = basicLightbox.create(
+    `<img class="modal-img" src=""> `,
+    {
+        onShow: instance => {
+            window.addEventListener('keydown', onEscapeClick);
+        },
+    },
+    {
+        onClose: instance => {
+            window.removeEventListener('keydown', onEscapeClick);
+        },
+    },
     );
 
-    instance.show();
- 
-}
-
-window.addEventListener("keyup", modalWindowClose);
-
-function modalWindowClose(event) {
+function onEscapeClick(event) {
   
     if (event.key === 'Escape') {
         console.log("Close modal");
         instance.close();
+        return;
     }
-
 }
-
-
-
-// const instance = basicLightbox.create(`
-// 	<img src="${event.target.alt}" width="800" height="600">   
-// `
-// )
-
