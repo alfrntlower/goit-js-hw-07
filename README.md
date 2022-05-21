@@ -3,7 +3,7 @@ goit-js-hw-07
 
 https://alfrntlower.github.io/goit-js-hw-07/
 
-Задание 1 - галерея изображений
+Task 1 - image gallery
 
-Задание 2 - библиотека SimpleLightbox
+Task 2 - SimpleLightbox library
 
